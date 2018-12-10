@@ -17,21 +17,6 @@ class ConfigurationChangedEventSubscriber implements EventSubscriberInterface
 {
 
     /**
-     * @var ContextInterface $context
-     */
-    private $context;
-
-    /**
-     * ConfigurationChangedEventSubscriber constructor.
-     *
-     * @param ContextInterface $context
-     */
-    public function __construct(ContextInterface $context)
-    {
-        $this->context = $context;
-    }
-
-    /**
      * @param ProjectYamlChangedEvent $event
      */
     public function resetContainer(ProjectYamlChangedEvent $event)

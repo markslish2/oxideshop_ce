@@ -100,7 +100,7 @@ class ContextStub implements ContextInterface
     /**
      * @param string $shopDir
      */
-    public function setShopDir($shopDir)
+    public function setSourcePath($shopDir)
     {
         $this->shopDir = $shopDir;
     }
@@ -108,7 +108,7 @@ class ContextStub implements ContextInterface
     /**
      * @return string
      */
-    public function getShopDir(): string
+    public function getSourcePath(): string
     {
         return $this->shopDir;
     }
@@ -124,7 +124,7 @@ class ContextStub implements ContextInterface
     /**
      * @return string
      */
-    public function getContainerCacheFile(): string
+    public function getContainerCacheFilePath(): string
     {
         return $this->containerCacheFile;
     }
@@ -132,7 +132,7 @@ class ContextStub implements ContextInterface
     /**
      * @param string $containerCacheFile
      */
-    public function setContainerCacheFile(string $containerCacheFile)
+    public function setContainerCacheFilePath(string $containerCacheFile)
     {
         $this->containerCacheFile = $containerCacheFile;
     }

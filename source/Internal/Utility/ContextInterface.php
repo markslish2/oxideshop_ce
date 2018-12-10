@@ -6,10 +6,12 @@
 
 namespace OxidEsales\EshopCommunity\Internal\Utility;
 
+use OxidEsales\EshopCommunity\Internal\Application\Utility\BasicContextInterface;
+
 /**
  * @internal
  */
-interface ContextInterface
+interface ContextInterface extends BasicContextInterface
 {
     /**
      * @return string

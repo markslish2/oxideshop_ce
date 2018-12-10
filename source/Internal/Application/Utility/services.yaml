@@ -1,0 +1,4 @@
+services:
+  OxidEsales\EshopCommunity\Internal\Utility\Application\FactsContextInterface:
+    class: OxidEsales\EshopCommunity\Internal\Utility\Application\FactsContext
+    public: false

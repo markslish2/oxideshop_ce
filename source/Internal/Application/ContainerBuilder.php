@@ -6,6 +6,9 @@
 
 namespace OxidEsales\EshopCommunity\Internal\Application;
 
+use OxidEsales\EshopCommunity\Application\Model\File;
+use OxidEsales\EshopCommunity\Internal\Application\Utility\BasicContext;
+use OxidEsales\EshopCommunity\Internal\Console\ConsoleCommandPass;
 use OxidEsales\EshopCommunity\Internal\Application\Dao\ProjectYamlDao;
 use OxidEsales\EshopCommunity\Internal\Application\Service\ProjectYamlImportService;
 use OxidEsales\EshopCommunity\Internal\Utility\FactsContext;
@@ -24,10 +27,15 @@ use Webmozart\PathUtil\Path;
  */
 class ContainerBuilder
 {
+
     /**
      * @var FactsContextInterface
      */
     private $context;
+
+    private $serviceFilePaths = [
+        'services.yaml', '..' . DIRECTORY_SEPARATOR . 'services.yaml'
+    ];
 
     /**
      * @param FactsContextInterface $context
@@ -57,11 +65,11 @@ class ContainerBuilder
      */
     private function loadServiceFiles(SymfonyContainerBuilder $symfonyContainer)
     {
-        $loader = new YamlFileLoader(
-            $symfonyContainer,
-            new FileLocator(Path::join($this->context->getCommunityEditionSourcePath(), 'Internal/Application'))
-        );
-        $loader->load('services.yaml');
+        foreach ($this->serviceFilePaths as $partialPath) {
+            $fullPath = Path::join($this->context->getCommunityEditionSourcePath(), 'Internal/Application/' . $partialPath);
+            $loader = new YamlFileLoader($symfonyContainer, new FileLocator(Path::getDirectory($fullPath)));
+            $loader->load(Path::getFilename($fullPath));
+        }
     }
 
     /**
@@ -85,7 +93,7 @@ class ContainerBuilder
      */
     private function cleanupProjectYaml()
     {
-        $projectYamlDao = new ProjectYamlDao(new FactsContext());
+        $projectYamlDao = new ProjectYamlDao(new BasicContext());
         $yamlImportService = new ProjectYamlImportService($projectYamlDao);
         $yamlImportService->removeNonExistingImports();
     }
