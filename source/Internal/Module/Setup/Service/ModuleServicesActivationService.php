@@ -10,7 +10,10 @@ use OxidEsales\EshopCommunity\Internal\Adapter\ShopAdapterInterface;
 use OxidEsales\EshopCommunity\Internal\Application\Dao\ProjectYamlDaoInterface;
 use OxidEsales\EshopCommunity\Internal\Application\DataObject\DIConfigWrapper;
 use OxidEsales\EshopCommunity\Internal\Application\DataObject\DIServiceWrapper;
+use OxidEsales\EshopCommunity\Internal\Application\Events\ServicesYamlConfigurationErrorEvent;
 use OxidEsales\EshopCommunity\Internal\Application\Exception\NoServiceYamlException;
+use OxidEsales\EshopCommunity\Internal\Application\Exception\ServicesYamlConfigurationError;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @internal
@@ -29,13 +32,24 @@ class ModuleServicesActivationService implements ModuleServicesActivationService
     private $shopAdapter;
 
     /**
-     * ModuleServicesActivationService constructor.
-     * @param ProjectYamlDaoInterface $dao
-     * @param ShopAdapterInterface    $shopAdapter
+     * @var EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(ProjectYamlDaoInterface $dao, ShopAdapterInterface $shopAdapter)
-    {
+    public $eventDispatcher;
+
+    /**
+     * ModuleServicesActivationService constructor.
+     *
+     * @param ProjectYamlDaoInterface  $dao
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param ShopAdapterInterface     $shopAdapter
+     */
+    public function __construct(
+        ProjectYamlDaoInterface $dao,
+        EventDispatcherInterface $eventDispatcher,
+        ShopAdapterInterface $shopAdapter
+    ) {
         $this->dao = $dao;
+        $this->eventDispatcher = $eventDispatcher;
         $this->shopAdapter = $shopAdapter;
     }
 
@@ -52,7 +66,7 @@ class ModuleServicesActivationService implements ModuleServicesActivationService
             $moduleConfig = $this->getModuleConfig($moduleConfigFile);
         } catch (NoServiceYamlException $e) {
             return;
-        }
+        };
 
         $projectConfig = $this->dao->loadProjectConfigFile();
         $projectConfig->addImport($moduleConfigFile);
@@ -86,7 +100,12 @@ class ModuleServicesActivationService implements ModuleServicesActivationService
             $moduleConfig = $this->getModuleConfig($moduleConfigFile);
         } catch (NoServiceYamlException $e) {
             return;
+        } catch (ServicesYamlConfigurationError $e) {
+            // it could never have been activated so there is nothing to deactivate
+            // and we can safely ignore this deactivation request
+            return;
         }
+
         $projectConfig = $this->dao->loadProjectConfigFile();
 
         /** @var DIServiceWrapper $service */
@@ -98,21 +117,45 @@ class ModuleServicesActivationService implements ModuleServicesActivationService
             $service->removeActiveShops([$shopId]);
             $projectConfig->addOrUpdateService($service);
         }
+
         $this->dao->saveProjectConfigFile($projectConfig);
     }
 
     /**
-     * @param string $moduleConfigFile
+     * @param string $moduleDir
      *
      * @return DIConfigWrapper
      * @throws NoServiceYamlException
      */
-    private function getModuleConfig(string $moduleConfigFile): DIConfigWrapper
+    private function getModuleConfig(string $moduleDir): DIConfigWrapper
     {
+        $moduleConfigFile = $this->getModuleServiceConfigFile($moduleDir);
         if (!file_exists($moduleConfigFile)) {
             throw new NoServiceYamlException();
         }
-        return $this->dao->loadDIConfigFile($moduleConfigFile);
+
+        $moduleConfig = $this->dao->loadDIConfigFile($moduleConfigFile);
+        if (! $moduleConfig->checkServiceClassesCanBeLoaded()) {
+            $this->eventDispatcher->dispatch(
+                ServicesYamlConfigurationErrorEvent::NAME,
+                new ServicesYamlConfigurationErrorEvent($moduleConfigFile)
+            );
+            throw new ServicesYamlConfigurationError();
+        }
+
+        return $moduleConfig;
+    }
+
+    /**
+     * Returns the module service file
+     *
+     * @param string $moduleDir
+     *
+     * @return string
+     */
+    private function getModuleServiceConfigFile(string $moduleDir): string
+    {
+        return $moduleDir . DIRECTORY_SEPARATOR . 'services.yaml';
     }
 
     /**
