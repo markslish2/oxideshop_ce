@@ -8,7 +8,6 @@ namespace OxidEsales\EshopCommunity\Internal\Application\Dao;
 
 use OxidEsales\EshopCommunity\Internal\Application\DataObject\DIConfigWrapper;
 use OxidEsales\EshopCommunity\Internal\Application\Utility\BasicContextInterface;
-use OxidEsales\EshopCommunity\Internal\Utility\FactsContextInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**

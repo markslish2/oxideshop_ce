@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /**
  * Copyright © OXID eSales AG. All rights reserved.
@@ -13,32 +12,21 @@ use Symfony\Component\EventDispatcher\Event;
 /**
  * @internal
  */
-class ServicesYamlConfigurationErrorEvent extends Event
+class ServicesYamlConfigurationErrorEvent extends ConfigurationErrorEvent
 {
     const NAME = self::class;
 
     /**
-     * @var string $servicesYamlFilePath
-     */
-    private $servicesYamlFilePath;
-
-    /**
      * ServicesYamlConfigurationErrorEvent constructor.
      *
-     * @param string $servicesYamlFilePath
+     * @param string $configurationFilePath
      */
-    public function __construct(string $servicesYamlFilePath)
+    public function __construct($configurationFilePath)
     {
-        $this->servicesYamlFilePath = $servicesYamlFilePath;
-    }
-
-    /**
-     * Returns the file that is misconfigured
-     *
-     * @return string
-     */
-    public function getServicesYamlFilePath()
-    {
-        return $this->servicesYamlFilePath;
+        parent::__construct(
+            self::ERROR_LEVEL_ERROR,
+            'There are undefined classes in the config.yaml file',
+            $configurationFilePath
+        );
     }
 }
