@@ -42,6 +42,8 @@ class ConfigurationErrorEvent extends Event
      */
     public function __construct(int $errorlevel, string $errormessage, string $configurationFilePath)
     {
+        $this->errorlevel = $errorlevel;
+        $this->errormessage = $errormessage;
         $this->configurationFilePath = $configurationFilePath;
     }
 

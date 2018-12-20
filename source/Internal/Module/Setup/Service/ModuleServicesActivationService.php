@@ -10,9 +10,9 @@ use OxidEsales\EshopCommunity\Internal\Adapter\ShopAdapterInterface;
 use OxidEsales\EshopCommunity\Internal\Application\Dao\ProjectYamlDaoInterface;
 use OxidEsales\EshopCommunity\Internal\Application\DataObject\DIConfigWrapper;
 use OxidEsales\EshopCommunity\Internal\Application\DataObject\DIServiceWrapper;
-use OxidEsales\EshopCommunity\Internal\Application\Events\ServicesYamlConfigurationErrorEvent;
 use OxidEsales\EshopCommunity\Internal\Application\Exception\NoServiceYamlException;
-use OxidEsales\EshopCommunity\Internal\Application\Exception\ServicesYamlConfigurationError;
+use OxidEsales\EshopCommunity\Internal\ProjectDIConfig\Event\ServicesYamlConfigurationErrorEvent;
+use OxidEsales\EshopCommunity\Internal\ProjectDIConfig\Exception\ServicesYamlConfigurationError;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**

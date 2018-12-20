@@ -5,8 +5,10 @@
  * See LICENSE file for license details.
  */
 
-namespace OxidEsales\EshopCommunity\Internal\Application\Events;
+namespace OxidEsales\EshopCommunity\Internal\ProjectDIConfig\EventSubscriber;
 
+use OxidEsales\EshopCommunity\Internal\Application\Events\ConfigurationErrorEvent;
+use OxidEsales\EshopCommunity\Internal\ProjectDIConfig\Event\ServicesYamlConfigurationErrorEvent;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -14,7 +16,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Class EventLoggingSubscriber
  *
- * @package OxidEsales\EshopCommunity\Internal\Application\Events
+ * @package OxidEsales\EshopCommunity\Internal\ProjectDIConfig\EventSubscriber
  */
 class EventLoggingSubscriber implements EventSubscriberInterface
 {
@@ -56,7 +58,7 @@ class EventLoggingSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            ConfigurationErrorEvent::class => 'logConfigurationError'
+            ServicesYamlConfigurationErrorEvent::class => 'logConfigurationError'
         ];
     }
 }

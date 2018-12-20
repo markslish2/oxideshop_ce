@@ -5,12 +5,17 @@
  * See LICENSE file for license details.
  */
 
-namespace OxidEsales\EshopCommunity\Internal\Application\Events;
+namespace OxidEsales\EshopCommunity\Internal\ProjectDIConfig\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use OxidEsales\EshopCommunity\Internal\Application\Events\ConfigurationErrorEvent;
 
 /**
- * @internal
+ * Class ServicesYamlConfigurationErrorEvent
+ *
+ * This event is dispatched when there are not loadable service classes
+ * found in a services.yaml file.
+ *
+ * @package OxidEsales\EshopCommunity\Internal\ProjectDIConfig\Event
  */
 class ServicesYamlConfigurationErrorEvent extends ConfigurationErrorEvent
 {
