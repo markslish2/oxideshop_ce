@@ -6,6 +6,8 @@
 
 namespace OxidEsales\EshopCommunity\Tests\Integration\Internal\ComposerPlugin;
 
+use Composer\Package\Package;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use OxidEsales\EshopCommunity\Internal\Module\Setup\Installer\ModuleCopyService;
 use org\bovigo\vfs\vfsStream;
@@ -24,11 +26,34 @@ class ModuleCopyServiceTest extends TestCase
 
     public function testCopy()
     {
-        $this->createModuleStructure();
-        $copyService = new ModuleCopyService();
-        $pathToPackage = vfsStream::url('/vendor/testvendor/testmodule');
-        $copyService->copyModuleFiles($pathToPackage);
+        $this->setupModuleStructure();
+
+        $copyService = new ModuleCopyService(vfsStream::url('root/source'), $this->getPackage());
+
+        $copyService->copy(vfsStream::url('root/vendor/testvendor/testmodule'));
+
+        $this->assertFileExists(vfsStream::url(
+            'root/source/modules/testvendor/testmodule/metadata.php'),
+            'Module was not copied'
+        );
     }
+
+    /**
+     * @return Package|MockObject
+     */
+    private function getPackage() : Package
+    {
+        /** @var Package $package */
+        $package = $this->getMockBuilder(Package::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getExtra', 'getName'])
+            ->getMock();
+        $package->method('getExtra')->willReturn(["target-directory" => "testvendor/testmodule"]);
+        $package->method('getName')->willReturn('testvendor/testmodule');
+
+        return $package;
+    }
+
 
 
     private function setupVfsStreamWrapper()
@@ -38,7 +63,7 @@ class ModuleCopyServiceTest extends TestCase
         }
     }
 
-    private function createModuleStructure()
+    private function setupModuleStructure()
     {
         $structure = [
             'vendor' => [
@@ -52,6 +77,7 @@ class ModuleCopyServiceTest extends TestCase
                 'modules' => []
             ]
         ];
+        vfsStream::create($structure, $this->vfsStreamDirectory);
     }
 
 }

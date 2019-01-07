@@ -17,15 +17,9 @@ interface ModuleCopyServiceInterface
 {
 
     /**
-     * @param string $packagePath
-     */
-    public function copyModuleFiles(string $packagePath);
-
-    /**
-     * @param string $packagePath
+     * Copies package from vendor directory to eShop source directory
      *
-     * @return bool
+     * @param string $packagePath
      */
-    public function moduleFilesPresent(string $packagePath) : bool;
-
+    public function copy(string $packagePath);
 }
