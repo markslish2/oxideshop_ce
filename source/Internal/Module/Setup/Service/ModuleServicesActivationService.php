@@ -122,14 +122,13 @@ class ModuleServicesActivationService implements ModuleServicesActivationService
     }
 
     /**
-     * @param string $moduleDir
+     * @param string $moduleConfigFile
      *
      * @return DIConfigWrapper
      * @throws NoServiceYamlException
      */
-    private function getModuleConfig(string $moduleDir): DIConfigWrapper
+    private function getModuleConfig(string $moduleConfigFile): DIConfigWrapper
     {
-        $moduleConfigFile = $this->getModuleServiceConfigFile($moduleDir);
         if (!file_exists($moduleConfigFile)) {
             throw new NoServiceYamlException();
         }
@@ -144,18 +143,6 @@ class ModuleServicesActivationService implements ModuleServicesActivationService
         }
 
         return $moduleConfig;
-    }
-
-    /**
-     * Returns the module service file
-     *
-     * @param string $moduleDir
-     *
-     * @return string
-     */
-    private function getModuleServiceConfigFile(string $moduleDir): string
-    {
-        return $moduleDir . DIRECTORY_SEPARATOR . 'services.yaml';
     }
 
     /**

@@ -5,10 +5,10 @@
  * See LICENSE file for license details.
  */
 
-namespace OxidEsales\EshopCommunity\Internal\ProjectDIConfig\EventSubscriber;
+namespace OxidEsales\EshopCommunity\Internal\Module\Setup\EventSubscriber;
 
 use OxidEsales\EshopCommunity\Internal\Application\Events\ConfigurationErrorEvent;
-use OxidEsales\EshopCommunity\Internal\ProjectDIConfig\Event\ServicesYamlConfigurationErrorEvent;
+use OxidEsales\EshopCommunity\Internal\Module\Setup\Event\ServicesYamlConfigurationErrorEvent;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

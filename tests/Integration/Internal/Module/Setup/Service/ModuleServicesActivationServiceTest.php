@@ -6,6 +6,7 @@
 
 namespace OxidEsales\EshopCommunity\Tests\Integration\Internal\Module\Setup\Service;
 
+use Composer\Script\Event;
 use OxidEsales\EshopCommunity\Internal\Adapter\ShopAdapterInterface;
 use OxidEsales\EshopCommunity\Internal\Application\Dao\ProjectYamlDaoInterface;
 use OxidEsales\EshopCommunity\Internal\Application\DataObject\DIConfigWrapper;
@@ -16,6 +17,7 @@ use OxidEsales\EshopCommunity\Tests\Integration\Internal\Module\TestData\TestMod
 use OxidEsales\EshopCommunity\Tests\Integration\Internal\Module\TestData\TestModule\TestEventSubscriber;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ModuleServicesActivationServiceTest extends TestCase
 {
@@ -46,14 +48,19 @@ class ModuleServicesActivationServiceTest extends TestCase
             ->method('saveProjectConfigFile')
             ->willReturnCallback([$this, 'saveProjectYaml']);
 
+        /** @var ShopAdapterInterface|MockObject $shopAdapter */
         $shopAdapter = $this->getMockBuilder(ShopAdapterInterface::class)->getMock();
         $shopAdapter
             ->method('getModuleFullPath')
             ->willReturn($this->testModuleDirectory);
 
-        $this->shopActivationService = new ModuleServicesActivationService($this->projectYamlDao, $shopAdapter);
+        /** @var EventDispatcherInterface $eventDispatcher */
+        $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
+
+        $this->shopActivationService = new ModuleServicesActivationService($this->projectYamlDao, $eventDispatcher, $shopAdapter);
     }
 
+    /** Callback function for mock to catch the given parameter */
     public function saveProjectYaml(DIConfigWrapper $config)
     {
         $this->projectYamlArray = $config->getConfigAsArray();

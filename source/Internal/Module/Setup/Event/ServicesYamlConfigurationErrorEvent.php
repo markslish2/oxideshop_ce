@@ -5,7 +5,7 @@
  * See LICENSE file for license details.
  */
 
-namespace OxidEsales\EshopCommunity\Internal\ProjectDIConfig\Event;
+namespace OxidEsales\EshopCommunity\Internal\Module\Setup\Event;
 
 use OxidEsales\EshopCommunity\Internal\Application\Events\ConfigurationErrorEvent;
 

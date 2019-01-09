@@ -43,8 +43,4 @@ interface ContextInterface extends BasicContextInterface
      */
     public function getConfigurationEncryptionKey(): string;
 
-    /**
-     * @return mixed
-     */
-    public function getContainerCacheFile();
 }
