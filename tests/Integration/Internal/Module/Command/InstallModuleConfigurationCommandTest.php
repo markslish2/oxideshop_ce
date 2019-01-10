@@ -7,26 +7,25 @@
 namespace OxidEsales\EshopCommunity\Tests\Integration\Internal\Module\Command;
 
 use OxidEsales\EshopCommunity\Internal\Module\Command\InstallModuleConfigurationCommand;
-use OxidEsales\EshopCommunity\Tests\Integration\Internal\TestContainerFactory;
-use PHPUnit\Framework\TestCase;
+use OxidEsales\EshopCommunity\Internal\Module\Configuration\Dao\ModuleConfigurationDaoInterface;
+use OxidEsales\EshopCommunity\Internal\Module\Configuration\Dao\ProjectConfigurationDaoInterface;
+use Symfony\Component\Console\Input\ArrayInput;
 
 /**
  * @internal
  */
-class InstallModuleConfigurationCommandTest extends TestCase
+class InstallModuleConfigurationCommandTest extends ModuleCommandsTestCase
 {
-    public function testCommandIsRegistered()
+    public function testExecute()
     {
-        $container = (new TestContainerFactory())->create();
-        $this->assertInstanceOf(
-            InstallModuleConfigurationCommand::class,
-            $container->get(InstallModuleConfigurationCommand::class)
+        $consoleOutput = $this->execute(
+            $this->getApplication(),
+            $this->get(InstallModuleConfigurationCommand::class),
+            new ArrayInput(['command' => 'oe:module:install-configuration', 'module-path' => __DIR__ . '/Fixtures/testmodule'])
         );
 
-        $definition = $container->getDefinition(InstallModuleConfigurationCommand::class);
+        $this->assertContains('Module configuration installed', $consoleOutput);
 
-        $this->assertTrue(
-            $definition->hasTag('console.command')
-        );
+        $moduleConfigurationDao = $this->get(ModuleConfigurationDaoInterface::class);
     }
 }

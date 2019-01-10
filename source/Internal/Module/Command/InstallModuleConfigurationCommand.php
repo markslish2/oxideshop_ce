@@ -21,9 +21,10 @@ class InstallModuleConfigurationCommand extends Command
      */
     protected function configure()
     {
-        $this->setDescription('Install module configuration.')
-             ->addArgument('module-path', InputArgument::REQUIRED, 'Module path')
-             ->setHelp('Command installs module configuration.');
+        $this
+            ->setName('oe:module:install-configuration')
+            ->setDescription('Install module configuration.')
+            ->addArgument('module-path', InputArgument::REQUIRED, 'Module path');
     }
 
     /**
