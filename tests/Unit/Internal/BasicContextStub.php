@@ -10,15 +10,12 @@ namespace OxidEsales\EshopCommunity\Tests\Unit\Internal;
 
 use OxidEsales\EshopCommunity\Internal\Application\Utility\BasicContext;
 use OxidEsales\EshopCommunity\Internal\Application\Utility\BasicContextInterface;
-use OxidEsales\Facts\Facts;
-use Webmozart\PathUtil\Path;
 
 /**
  * @internal
  */
 class BasicContextStub implements BasicContextInterface
 {
-
     private $communityEditionSourcePath;
     private $containerCacheFilePath;
     private $edition;
@@ -39,73 +36,115 @@ class BasicContextStub implements BasicContextInterface
         $this->sourcePath = $basicContext->getSourcePath();
     }
 
+    /**
+     * @return string
+     */
     public function getCommunityEditionSourcePath(): string
     {
         return $this->communityEditionSourcePath;
     }
 
-    public function setCommunityEditionSourcePath(string $path): string
+    /**
+     * @param string $communityEditionSourcePath
+     */
+    public function setCommunityEditionSourcePath(string $communityEditionSourcePath)
     {
-        $this->communityEditionSourcePath = $path;
+        $this->communityEditionSourcePath = $communityEditionSourcePath;
     }
 
+    /**
+     * @return string
+     */
     public function getContainerCacheFilePath(): string
     {
         return $this->containerCacheFilePath;
     }
 
-    public function setContainerCacheFilePath(string $path): string
+    /**
+     * @param string $containerCacheFilePath
+     */
+    public function setContainerCacheFilePath(string $containerCacheFilePath)
     {
-        $this->containerCacheFilePath = $path;
+        $this->containerCacheFilePath = $containerCacheFilePath;
     }
 
+    /**
+     * @return string
+     */
     public function getEdition(): string
     {
         return $this->edition;
     }
 
-    public function setEdition(string $path)
+    /**
+     * @param string $edition
+     */
+    public function setEdition(string $edition)
     {
-        $this->edition = $path;
+        $this->edition = $edition;
     }
 
+    /**
+     * @return string
+     */
     public function getEnterpriseEditionRootPath(): string
     {
         return $this->enterpriseEditionRootPath;
     }
 
-    public function setEnterpriseEditionRootPath(string $path)
+    /**
+     * @param string $enterpriseEditionRootPath
+     */
+    public function setEnterpriseEditionRootPath(string $enterpriseEditionRootPath)
     {
-        $this->enterpriseEditionRootPath = $path;
+        $this->enterpriseEditionRootPath = $enterpriseEditionRootPath;
     }
 
+    /**
+     * @return string
+     */
     public function getGeneratedProjectFilePath(): string
     {
         return $this->generatedProjectFilePath;
     }
 
-    public function setGeneratedProjectFilePath(string $path)
+    /**
+     * @param string $generatedProjectFilePath
+     */
+    public function setGeneratedProjectFilePath(string $generatedProjectFilePath)
     {
-        $this->generatedProjectFilePath = $path;
+        $this->generatedProjectFilePath = $generatedProjectFilePath;
     }
 
+    /**
+     * @return string
+     */
     public function getProfessionalEditionRootPath(): string
     {
         return $this->professionalEditionRootPath;
     }
 
-    public function setProfessionalEditionRootPath(string $path)
+    /**
+     * @param string $professionalEditionRootPath
+     */
+    public function setProfessionalEditionRootPath(string $professionalEditionRootPath)
     {
-        $this->professionalEditionRootPath = $path;
+        $this->professionalEditionRootPath = $professionalEditionRootPath;
     }
 
+    /**
+     * @return string
+     */
     public function getSourcePath(): string
     {
         return $this->sourcePath;
     }
 
-    public function setSourcePath(string $path)
+    /**
+     * @param string $sourcePath
+     */
+    public function setSourcePath(string $sourcePath)
     {
-        $this->sourcePath = $path;
+        $this->sourcePath = $sourcePath;
     }
 }
