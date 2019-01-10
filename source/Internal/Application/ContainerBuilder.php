@@ -6,16 +6,13 @@
 
 namespace OxidEsales\EshopCommunity\Internal\Application;
 
-use OxidEsales\EshopCommunity\Application\Model\File;
 use OxidEsales\EshopCommunity\Internal\Application\Utility\BasicContext;
 use OxidEsales\EshopCommunity\Internal\Application\Utility\BasicContextInterface;
-use OxidEsales\EshopCommunity\Internal\Console\ConsoleCommandPass;
 use OxidEsales\EshopCommunity\Internal\Application\Dao\ProjectYamlDao;
 use OxidEsales\EshopCommunity\Internal\Application\Service\ProjectYamlImportService;
 use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Console\DependencyInjection\AddConsoleCommandPass;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass;

@@ -8,7 +8,6 @@ namespace OxidEsales\EshopCommunity\Internal\Utility;
 
 use OxidEsales\Eshop\Core\Config;
 use OxidEsales\EshopCommunity\Internal\Application\Utility\BasicContext;
-use OxidEsales\Facts\Facts;
 
 /**
  * @internal

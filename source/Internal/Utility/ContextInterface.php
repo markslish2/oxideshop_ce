@@ -42,5 +42,4 @@ interface ContextInterface extends BasicContextInterface
      * @return string
      */
     public function getConfigurationEncryptionKey(): string;
-
 }

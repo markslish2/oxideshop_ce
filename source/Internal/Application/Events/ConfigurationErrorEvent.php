@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /**
  * Copyright © OXID eSales AG. All rights reserved.
@@ -21,14 +20,14 @@ class ConfigurationErrorEvent extends Event
     const ERROR_LEVEL_ERROR = 3;
 
     /**
-     * @var int $errorlevel
+     * @var int $errorLevel
      */
-    private $errorlevel;
+    private $errorLevel;
 
     /**
-     * @var string $errormessage
+     * @var string $errorMessage
      */
-    private $errormessage;
+    private $errorMessage;
 
     /**
      * @var string $configurationFilePath
@@ -36,14 +35,14 @@ class ConfigurationErrorEvent extends Event
     private $configurationFilePath;
 
     /**
-     * @param int    $errorlevel
-     * @param int    $errormessage
+     * @param int    $errorLevel
+     * @param string $errorMessage
      * @param string $configurationFilePath
      */
-    public function __construct(int $errorlevel, string $errormessage, string $configurationFilePath)
+    public function __construct(int $errorLevel, string $errorMessage, string $configurationFilePath)
     {
-        $this->errorlevel = $errorlevel;
-        $this->errormessage = $errormessage;
+        $this->errorLevel = $errorLevel;
+        $this->errorMessage = $errorMessage;
         $this->configurationFilePath = $configurationFilePath;
     }
 
@@ -62,7 +61,7 @@ class ConfigurationErrorEvent extends Event
      */
     public function getErrorLevel(): int
     {
-        return $this->errorlevel;
+        return $this->errorLevel;
     }
 
     /**
@@ -70,6 +69,6 @@ class ConfigurationErrorEvent extends Event
      */
     public function getErrorMessage(): string
     {
-        return $this->errormessage;
+        return $this->errorMessage;
     }
 }
