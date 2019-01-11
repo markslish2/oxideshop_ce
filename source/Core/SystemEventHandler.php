@@ -163,9 +163,31 @@ class SystemEventHandler
     }
 
     /**
+     * Perform shop finishing up related actions, like updating app server data.
+     */
+    public function onShopEnd()
+    {
+        $this->updateAppServerData();
+    }
+
+    /**
      * Check if shop is valid online.
      */
     protected function validateOnline()
+    {
+        try {
+            if ($this->isSendingShopDataEnabled() && !\OxidEsales\Eshop\Core\Registry::getUtils()->isSearchEngine()) {
+                $this->sendShopInformation();
+            }
+        } catch (Exception $exception) {
+            \OxidEsales\Eshop\Core\Registry::getLogger()->error($exception->getMessage(), [$exception]);
+        }
+    }
+
+    /**
+     * Add/update appserver information in database.
+     */
+    protected function updateAppServerData()
     {
         try {
             $appServerService = $this->getAppServerService();
@@ -173,10 +195,6 @@ class SystemEventHandler
                 $appServerService->updateAppServerInformationInAdmin();
             } else {
                 $appServerService->updateAppServerInformationInFrontend();
-            }
-
-            if ($this->isSendingShopDataEnabled() && !\OxidEsales\Eshop\Core\Registry::getUtils()->isSearchEngine()) {
-                $this->sendShopInformation();
             }
         } catch (Exception $exception) {
             \OxidEsales\Eshop\Core\Registry::getLogger()->error($exception->getMessage(), [$exception]);
